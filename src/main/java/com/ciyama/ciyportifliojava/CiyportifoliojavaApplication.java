@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.ciyama.ciyportifliojava.domain.Categoria;
+import com.ciyama.ciyportifliojava.domain.Cidade;
+import com.ciyama.ciyportifliojava.domain.Estado;
 import com.ciyama.ciyportifliojava.domain.Produto;
 import com.ciyama.ciyportifliojava.repositories.CategoriaRepository;
+import com.ciyama.ciyportifliojava.repositories.CidadeRepository;
+import com.ciyama.ciyportifliojava.repositories.EstadoRepository;
 import com.ciyama.ciyportifliojava.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -17,9 +21,12 @@ public class CiyportifoliojavaApplication implements CommandLineRunner {
 	
 	@Autowired
 	public CategoriaRepository categoriaRepository;
-
 	@Autowired
 	public ProdutoRepository produtoRepository;
+	@Autowired
+	public EstadoRepository estadoRepository;
+	@Autowired
+	public CidadeRepository cidadeRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CiyportifoliojavaApplication.class, args);
@@ -43,9 +50,24 @@ public class CiyportifoliojavaApplication implements CommandLineRunner {
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 		
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		
+		
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlandia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
 	}
 
 }
