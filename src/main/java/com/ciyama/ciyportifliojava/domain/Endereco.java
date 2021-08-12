@@ -1,7 +1,21 @@
 package com.ciyama.ciyportifliojava.domain;
 
-public class Endereco {
+import java.io.Serializable;
+import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Endereco implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String Logradouro;
 	private String numero;
@@ -9,7 +23,13 @@ public class Endereco {
 	private String bairro;
 	private String cep;
 	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+	
+	@ManyToOne
+	@JoinColumn(name = "cidade_id")
+	private Cidade cidade;
 	
 	
 	public Endereco() {
@@ -17,7 +37,7 @@ public class Endereco {
 
 
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
-			Cliente cliente) {
+			Cliente cliente, Cidade cidade) {
 		super();
 		this.id = id;
 		Logradouro = logradouro;
@@ -26,6 +46,17 @@ public class Endereco {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
+		this.cidade = cidade;
+	}
+
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 
@@ -96,6 +127,25 @@ public class Endereco {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Endereco other = (Endereco) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 	
