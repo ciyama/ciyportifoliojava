@@ -22,8 +22,8 @@ public abstract class Pagamento  implements Serializable {
 	private Integer id;
 	private Integer estado;
 	
-	@JoinColumn(name = "pedido_id")
 	@OneToOne
+	@JoinColumn(name = "pedido_id")
 	@MapsId
 	private Pedido pedido;
 	
